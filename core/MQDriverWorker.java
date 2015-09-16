@@ -44,27 +44,17 @@ import com.ibm.mq.*;
 
 public class MQDriverWorker implements Runnable {
   
-//  public static final String DELIMITED_TYPE = "Delimited";
-//  public static final String MULTIDELIMITED_TYPE = "MultiDelimited";
-//  public static final String EXTRACTVALUE_TYPE = "ExtractValue";
   public static final String FILE_TYPE = "File";
   public static final String FILE_READ_TYPE = "FileRead";
   
   public static final String NUMBER_TYPE = "Number";
-  // public static final String POSITIONAL_TYPE = "Positional";
   public static final String RANDOM_DOUBLE_TYPE = "RandomDouble";
   public static final String RANDOM_LONG_TYPE = "RandomLong";
   public static final String STRING_TYPE = "String";
   public static final String THREAD_TYPE = "Thread";
   public static final String TIMESTAMP_TYPE = "Timestamp";
-  // public static final String LOOKUP_TYPE = "Lookup";
   public static final String HEX_TYPE = "HEX";
   public static final String GUID_TYPE = "Guid";
-  // public static final String THREAD_COUNT_TYPE = "ThreadCount";
-  //public static final String CONTENT_LENGTH_TYPE = "ContentLength";
-  // public static final String RECEIVEREVENT_COUNT_TYPE = "ReceiverCount";
-  
-  // 2.2
   public static final String SESSION_TYPE = "SessionId";
   
   private RandomNumberGenerator randomGenerator;
@@ -109,18 +99,16 @@ public class MQDriverWorker implements Runnable {
     String formattedDate;
     String formattedStartDate;
     Date date;
-    Date startDate;
-    Date endDate;
+    //Date startDate;
+    //Date endDate;
     String queueName;
+        
     
-    
-    int maxVolume = Integer.valueOf(baseLineMessage.getVolume());
     String waitDistribution = baseLineMessage.getWaitDistribution();
-    
     double minWait = Double.parseDouble(baseLineMessage.getMinWait());
     double maxWait = Double.parseDouble(baseLineMessage.getMaxWait());
     double waitTime;
-    
+    int maxVolume = Integer.valueOf(baseLineMessage.getVolume());
     // loop for the volume set in the xml
     for (int loopCounter=0; loopCounter<maxVolume; loopCounter++){
       try {

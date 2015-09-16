@@ -95,11 +95,11 @@ public class MQSeriesProperties {
   }
        
   public String getConfigFileName(){
-    return configFileName;
+    return this.configFileName;
   }
   
     public String getQManager() {
-        return qManager;
+        return this.qManager;
     }
 
     public void setQManager(String qManager) {
@@ -108,7 +108,7 @@ public class MQSeriesProperties {
     }
  // 1.6.5
     public boolean getDebugFlag() {
-        return debugFlag;
+        return this.debugFlag;
     }
 // 1.6.5
     public void setDebugFlag(boolean debugFlag) {
@@ -117,7 +117,7 @@ public class MQSeriesProperties {
     
 // 1.7.1
     public boolean getEncFlag() {
-        return encFlag;
+        return this.encFlag;
     }
  // 1.7.1
     public void setEncFlag(boolean encFlag) {
@@ -125,7 +125,7 @@ public class MQSeriesProperties {
     }
 
     public String getLogFileName() {
-        return logFile;
+        return this.logFile;
     }
 
     public void setLogFileName(String logFile) {
@@ -139,11 +139,11 @@ public class MQSeriesProperties {
 
     public Element getCoreElement()
     {
-        return coreElement;
+        return this.coreElement;
     }
 
     public int getWaitTime() {
-        return waitTime;
+        return this.waitTime;
     }
 
     public void setWaitTime(String waitTime) {
@@ -164,13 +164,11 @@ public class MQSeriesProperties {
             this.clientChannel = clientChannel;
         if (clientChannel.length() == 0)
          this.clientChannel = null;
-        
-
     }
     
 // 1.7.2
     public String getClientUserName() {
-        return clientUserName;
+        return this.clientUserName;
     }
 
     public void setClientUserName(String clientUserName) {
@@ -182,7 +180,7 @@ public class MQSeriesProperties {
     }
     
     public String getClientPassword() {
-        return clientPassword;
+        return this.clientPassword;
     }
 
     public void setClientPassword(String clientPassword) {
@@ -193,7 +191,7 @@ public class MQSeriesProperties {
     }
     
     public String getClientHost() {
-        return clientHost;
+        return this.clientHost;
     }
 
     public void setClientHost(String clientHost) {
@@ -204,7 +202,7 @@ public class MQSeriesProperties {
     }
 
     public int getClientPort() {
-        return clientPort;
+        return this.clientPort;
     }
 
     public void setClientPort(String clientPort) {
