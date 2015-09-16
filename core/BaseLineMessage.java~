@@ -1,0 +1,85 @@
+package com.mqDriver.core;
+
+/**
+ class: BaseLineMessage
+ Purpose: setup the baseline respopnse message.
+ Notes:
+ Author: Tim Lane
+ Date: 25/03/2014
+ 
+ **/
+
+import java.util.List;
+
+public class BaseLineMessage {
+  
+  private String  Name;
+  private String  Cdata;
+  private String maxWait;
+  private String minWait;
+  private String volume;
+  private String waitDistribution;
+  
+  
+  public static BaseLineMessage findInList(List templateList, String templateName)
+  {
+    for (Object aTemplateList : templateList)
+    {
+      BaseLineMessage tmp = (BaseLineMessage) aTemplateList;
+      if (tmp.getName().equals(templateName))
+      {
+        return tmp;
+      }
+    }
+    return null;
+  }
+  
+  public String getMaxWait() {
+    return maxWait;
+  }
+  
+  public void setMaxWait(String maxWait) {
+    maxWait = maxWait;
+  }
+  
+  public String getMinWait() {
+    return minWait;
+  }
+  
+  public void setMinWait(String minWait) {
+    minWait = minWait;
+  }
+  
+  public String getVolume() {
+    return volume;
+  }
+  
+  public void setVolume(String volume) {
+    System.out.println("---------------------------\n\t set volume: " + volume + "\n---------------------------");
+    volume = volume;
+  }
+  
+  public String getWaitDistribution() {
+    return waitDistribution;
+  }
+  
+  public void setWaitDistribution(String waitDistribution) {
+    waitDistribution = waitDistribution;
+  }
+  public String getName() {
+    return Name;
+  }
+  
+  public void setName(String name) {
+    Name = name;
+  }
+  
+  public String getCdata() {
+    return Cdata;
+  }
+  
+  public void setCdata(String cdata) {
+    Cdata = cdata;
+  }
+  
+}
