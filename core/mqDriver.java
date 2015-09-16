@@ -77,7 +77,7 @@ public class mqDriver {
   
   List<String> receiverEventsCntr = new ArrayList<String>();
   
-  private static String mqVersion = "0.1";
+  private static String mqVersion = "0.2";
   
   public mqDriver(MQSeriesProperties mqSeriesProperties, LogFileProperties logFileProperties)
   {
@@ -107,8 +107,7 @@ public class mqDriver {
       logFileName = "C:\\dbox\\Dropbox\\java\\mq_driver\\xml\\log4j.properties";
     } 
     configMessage = "XML config file: " + configFileName;
-    System.out.println("mqDriver: " + configMessage);
-    
+        
     try {
       /*
        * open XML config file and from xml config file read HTTP properties
@@ -116,7 +115,6 @@ public class mqDriver {
       XMLExtractor extractor = new XMLExtractor(new FileInputStream(new File(configFileName)));
       MQSeriesProperties mqSeriesProperties = new MQSeriesProperties(extractor.getElement("MQSeries"));
       mqSeriesProperties.setConfigFileName(configFileName);
-      
       /*
        * setup logging
        * TRACE < DEBUG < INFO < WARN < ERROR < FATAL
@@ -175,10 +173,9 @@ public class mqDriver {
       logger.setLevel(Level.TRACE);
     }
     
-    boolean mqSeriesLoop = true;
-    boolean connectionLoop = true;
-    int connectionLoopCntr = 0;
-    
+    /*
+     * loop through all the baseline messages and create a thread for each one processing.
+     */ 
     for (int i = 0; i < coreProperties.getBaselineMessages().size(); i++) {
       BaseLineMessage baseLineMessage =  (BaseLineMessage) coreProperties.getBaselineMessages().get(i);
       Runnable MQDriverWorker = new MQDriverWorker(baseLineMessage, 
@@ -189,8 +186,7 @@ public class mqDriver {
        
       
     }
-    
-    // }
+  
     /* 
      * shutdown threads
      */

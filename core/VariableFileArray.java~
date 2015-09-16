@@ -83,10 +83,10 @@ public class VariableFileArray {
     return nextValue; 
   }
   
-  public String getNextValue() {
+    public String getNextValue() {
     
-    String nextValue = "file next record not found";
-    nextValue = this.fileArray.get(this.listCounter);
+      String nextValue = "file next record not found";
+        nextValue = this.fileArray.get(this.listCounter);
     updateListCounter();
     
     return nextValue; 
@@ -126,20 +126,21 @@ public class VariableFileArray {
     return nextValue; 
   }
   
-  public String getRandomValue() {
+   public String getRandomValue() {
     int minValue=0;
     int maxValue=this.fileArray.size();
     Random r = new Random();
     int occurrence = r.nextInt(maxValue - minValue) + minValue;
     String nextValue = "file random record not found";
     nextValue = this.fileArray.get(occurrence);
-    
+       
     return nextValue; 
   }
-  
+   
   public String lookupValue(String lookupValue, String delimiterVar, 
                             String keyVar, String dataVar) {
-        
+    
+    
     String retValue="file lookup not found for value: " + lookupValue;
     String delimiter=":";
     int keyColumn=1;

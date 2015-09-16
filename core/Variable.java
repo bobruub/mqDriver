@@ -230,8 +230,7 @@ public class Variable {
     else
       setColumn(Integer.parseInt(column));
   }
-  
-  
+    
   public String getFormat() {
     return Format;
   }
@@ -281,10 +280,6 @@ public class Variable {
       }
     }
   }
-  
-
-  
-  
   
   public int getOffset() {
     return Offset;

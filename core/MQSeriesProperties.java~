@@ -1,9 +1,4 @@
-package com.mqStub.core;
-
-import com.ibm.mq.MQMessage;
-import com.vif.stub.cim.*;
-import com.vif.stub.core.StubPlugin;
-import com.vif.utils.XMLExtractor;
+package com.mqDriver.core;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -12,16 +7,19 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-public class MQSeriesProperties implements StubPlugin
-{
+import com.ibm.mq.*;
+
+public class MQSeriesProperties {
+  
     public static final String PARAM_QMGR = "QManager";
     public static final String PARAM_HOST = "ClientHost";
     public static final String PARAM_CHANNEL = "ClientChannel";
     public static final String PARAM_PORT = "ClientPort";
-    // 1.7.2
     public static final String PARAM_USERNAME = "ClientUserName";
     public static final String PARAM_PASSWORD = "ClientPassword";
-    
+    public static final String PARAM_QUEUENAME = "QueueName";
+     public static final String PARAM_THREADCOUNT = "ThreadCount";
+
     public static final String PARAM_WAIT = "WaitTime";
     // 1.5.6  
     public static String MSG_FORMAT_HEX = "HEX";
@@ -31,6 +29,9 @@ public class MQSeriesProperties implements StubPlugin
     public static String MSG_TYPE_REPLY = "REPLY";
     public static String MSG_TYPE_DATAGRAM = "DATAGRAM";
 
+    private int threadCount;
+       String configFileName = null;
+       
     private String                      qManager;
     private Element                     coreElement;
     private String                      logFile;
@@ -39,8 +40,8 @@ public class MQSeriesProperties implements StubPlugin
     // 1.7.1 
     private boolean encFlag = false;
 
-    private MQSeriesInputProperties     inputProperties;
-    private MQSeriesOutputProperties    outputProperties;
+  //  private MQSeriesInputProperties     inputProperties;
+  //  private MQSeriesOutputProperties    outputProperties;
     private int                         waitTime = 7200;
     private String                      clientChannel;
     private String                      clientHost;
@@ -48,11 +49,11 @@ public class MQSeriesProperties implements StubPlugin
     private String                      clientUserName;
     private String                      clientPassword;
     private int                         clientPort;
-    private MQMessage                   inputMessage;
-    
+    private String queueName;   
 
     public MQSeriesProperties(Element mqElement)
     {
+      
         setQManager(mqElement.getAttribute(PARAM_QMGR));
         setClientHost(mqElement.getAttribute(PARAM_HOST));
         setClientChannel(mqElement.getAttribute(PARAM_CHANNEL));
@@ -60,20 +61,49 @@ public class MQSeriesProperties implements StubPlugin
         // 1.7.2
         setClientUserName(mqElement.getAttribute(PARAM_USERNAME));
         setClientPassword(mqElement.getAttribute(PARAM_PASSWORD));
+        setQueueName(mqElement.getAttribute(PARAM_QUEUENAME));
+        setThreadCount(mqElement.getAttribute(PARAM_THREADCOUNT));
         
-        setWaitTime(mqElement.getAttribute(PARAM_WAIT));
+        //setWaitTime(mqElement.getAttribute(PARAM_WAIT));
     
         // Now we can setup the message properties by passing the 'MQ' element
         // into the setMessageProperties routine:
-        setMessageProperties(mqElement);
+   //     setMessageProperties(mqElement);
     }
 
-    
+     public void setQueueName(String queueName){
+       
+       
+    this.queueName = queueName;
+  }
+  
+  public String getQueueName(){
+    return queueName;
+  }
+  
+  public void setThreadCount(String threadCount){
+    this.threadCount = Integer.parseInt(threadCount);
+
+  }
+  
+  public int getThreadCount(){
+    return threadCount;
+  }
+  
+   public void setConfigFileName(String configFileName){
+    this.configFileName = configFileName;
+  }
+       
+  public String getConfigFileName(){
+    return configFileName;
+  }
+  
     public String getQManager() {
         return qManager;
     }
 
     public void setQManager(String qManager) {
+
         this.qManager = qManager;
     }
  // 1.6.5
@@ -134,6 +164,8 @@ public class MQSeriesProperties implements StubPlugin
             this.clientChannel = clientChannel;
         if (clientChannel.length() == 0)
          this.clientChannel = null;
+        
+
     }
     
 // 1.7.2
@@ -146,6 +178,7 @@ public class MQSeriesProperties implements StubPlugin
             this.clientUserName = clientUserName;
         if (clientUserName.length() == 0)
          this.clientUserName = null;
+
     }
     
     public String getClientPassword() {
@@ -155,6 +188,8 @@ public class MQSeriesProperties implements StubPlugin
     public void setClientPassword(String clientPassword) {
         if ((clientPassword != null) && (clientPassword.length() > 0))
             this.clientPassword = clientPassword;
+        
+
     }
     
     public String getClientHost() {
@@ -164,6 +199,8 @@ public class MQSeriesProperties implements StubPlugin
     public void setClientHost(String clientHost) {
         if ((clientHost != null) && (clientHost.length() > 0))
             this.clientHost = clientHost;
+        
+
     }
 
     public int getClientPort() {
@@ -173,49 +210,8 @@ public class MQSeriesProperties implements StubPlugin
     public void setClientPort(String clientPort) {
         if ((clientPort != null) && (clientPort.length() > 0))
             this.clientPort = Integer.parseInt(clientPort);
-    }
+        
 
-    public MQSeriesInputProperties getInputProperties() {
-        return inputProperties;
-    }
-
-    public void setInputProperties(MQSeriesInputProperties inputProperties) {
-        this.inputProperties = inputProperties;
-    }
-
-    public MQSeriesOutputProperties getOutputProperties() {
-        return outputProperties;
-    }
-
-    public void setOutputProperties(MQSeriesOutputProperties outputProperties) {
-        this.outputProperties = outputProperties;
-    }
-
-    public void setMessageProperties(String mqConfigFileName)
-    {
-        try
-        {
-            XMLExtractor extractor = new XMLExtractor(new FileInputStream(new File(mqConfigFileName)));
-            setMessageProperties(extractor.getXmlRootElement());
-        } catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-   }
-
-    public void setMessageProperties(Element mqElement)
-    {
-        NodeList mqInNodes = mqElement.getElementsByTagName("Inbound");
-        if (mqInNodes.getLength() == 1)
-            this.inputProperties = new MQSeriesInputProperties((Element)mqInNodes.item(0));
-        else
-            this.inputProperties = null;
-
-        NodeList mqOutNodes = mqElement.getElementsByTagName("Outbound");
-        if (mqOutNodes.getLength() == 1)
-            this.outputProperties = new MQSeriesOutputProperties((Element)mqOutNodes.item(0));
-        else
-            this.outputProperties = null;
     }
 
     public boolean validate()
@@ -223,25 +219,7 @@ public class MQSeriesProperties implements StubPlugin
         return true;
     }
 
-    public MQMessage getInputMessage() {
-        return inputMessage;
-    }
 
-    public void setInputMessage(MQMessage inputMessage) {
-        this.inputMessage = inputMessage;
-    }
-
-    public boolean hasInputProperties()
-    {
-        if (this.inputProperties == null)
-            return false;
-        else if (this.inputProperties.getQueueName() == null)
-            return false;
-        else if (this.inputProperties.getQueueName().length() == 0)
-            return false;
-        else
-            return true;
-    }
     
     
 }

@@ -54,7 +54,6 @@ public class CoreProperties {
          setName(coreElement.getAttribute("Name"));
          setDescription(coreElement.getAttribute("Description"));
          setDate(coreElement.getAttribute("Date"));
-          
         /* 
          * get variables
          * <Variable Name="TIMESTAMP" Type="Timestamp" Format="HH:mm:ss"/>
@@ -65,7 +64,6 @@ public class CoreProperties {
             Element variableElement = (Element)variableNodes.item(s);
             addVariable(getVariable(variableElement,logger));
         }
-        
         /* 
          * get baseline nodes
          * <BaselineMessage Name="TestPage"><![CDATA[respopnse message]]</BaselineMessage> 
@@ -188,8 +186,6 @@ public class CoreProperties {
             variable.setRandMax(variableElement.getAttribute("RandMax"));
             variable.setDefaultValue(variableElement.getAttribute("DefaultValue"));
             variable.setConvert(variableElement.getAttribute("Convert"));
-            variable.setTrim(variableElement.getAttribute("Trim"));
-            variable.setDelimiter(variableElement.getAttribute("Delimiter")); 
             variable.setSessionLength(variableElement.getAttribute("SessionLength")); 
             variable.setAccessType(variableElement.getAttribute("AccessType"));
             variable.loadDataFile(variableElement.getAttribute("Filename"));

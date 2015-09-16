@@ -6,8 +6,7 @@ package com.mqDriver.core;
  Notes:
  Author: Tim Lane
  Date: 25/03/2014
- 
- **/
+**/
 
 import java.util.List;
 
